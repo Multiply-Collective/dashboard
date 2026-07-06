@@ -13,6 +13,7 @@ if ($user && password_verify($_POST['password'], $user['password'])) {
 
     $_SESSION['uid'] = $user['uid'];
     $_SESSION['name'] = $user['first_name'];
+    $_SESSION['role'] = $user['role'] ?? 'standard_user';
 
     header("Location: ../dashboard/home.php");
 } else {
