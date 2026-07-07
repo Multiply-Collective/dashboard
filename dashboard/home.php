@@ -1,7 +1,7 @@
 <?php
 
-require __DIR__ . '/../config/config.php';
-require __DIR__ . '/forms/common.php';
+require_once __DIR__ . '/../config/config.php';
+require_once __DIR__ . '/forms/common.php';
 
 if (!isset($_SESSION['uid'])) {
     header('Location: ../auth/login.php');
@@ -10,6 +10,7 @@ if (!isset($_SESSION['uid'])) {
 
 $forms = get_all_forms($pdo);
 $submissions = get_all_submissions($pdo);
+$canManageUsers = role_rank($_SESSION['role'] ?? 'standard_user') >= role_rank('admin');
 
 ?>
 <!doctype html>
@@ -31,6 +32,7 @@ $submissions = get_all_submissions($pdo);
         <nav class="topnav">
             <a class="nav-link active" href="home.php">Dashboard</a>
             <a class="nav-link" href="forms/index.php">Forms</a>
+            <a class="nav-link" href="settings.php">Settings</a>
             <a class="nav-link" href="../auth/logout.php">Logout</a>
         </nav>
     </header>
@@ -66,6 +68,7 @@ $submissions = get_all_submissions($pdo);
             <div class="button-row">
                 <a class="button" href="forms/index.php">Go to form manager</a>
                 <a class="button secondary" href="forms/builder.php">Create a new form</a>
+                <a class="button secondary" href="settings.php">Open settings</a>
             </div>
         </section>
     </main>

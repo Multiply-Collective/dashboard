@@ -102,6 +102,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <nav class="topnav">
             <a class="nav-link" href="../home.php">Dashboard</a>
             <a class="nav-link active" href="index.php">Forms</a>
+            <a class="nav-link" href="../settings.php">Settings</a>
             <a class="nav-link" href="../auth/logout.php">Logout</a>
         </nav>
     </header>

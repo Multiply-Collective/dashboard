@@ -1,6 +1,6 @@
 <?php
 
-require dirname(__DIR__, 2) . '/config/config.php';
+require_once dirname(__DIR__, 2) . '/config/config.php';
 
 if (session_status() !== PHP_SESSION_ACTIVE) {
     session_start();
@@ -95,7 +95,13 @@ function generate_unique_slug(PDO $pdo, string $title): string
 
 function get_role_options(): array
 {
-    return ['standard_user', 'client', 'coach', 'catalyst', 'superintendent', 'regional_manager', 'admin'];
+    return ['standard_user', 'client', 'coach', 'catalyst', 'superintendent', 'regional_director', 'admin'];
+}
+
+function normalize_role(string $role): string
+{
+    $role = strtolower(trim($role));
+    return $role === 'regional_manager' ? 'regional_director' : $role;
 }
 
 function role_rank(string $role): int
@@ -106,11 +112,11 @@ function role_rank(string $role): int
         'coach' => 3,
         'catalyst' => 4,
         'superintendent' => 5,
-        'regional_manager' => 6,
+        'regional_director' => 6,
         'admin' => 7,
     ];
 
-    return $roles[$role] ?? 0;
+    return $roles[normalize_role($role)] ?? 0;
 }
 
 function user_can_access_form(array $form, ?string $userRole = null): bool
