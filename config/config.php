@@ -2,7 +2,26 @@
 if (session_status() !== PHP_SESSION_ACTIVE) {
     session_start();
 }
-$pdo = new PDO("mysql:host=localhost;dbname=Multiply_Collective_db;charset=utf8", "mc_admin", "mc_admin");
+
+$databaseConfigPath = __DIR__ . '/db.local.php';
+$databaseConfig = [];
+
+if (is_file($databaseConfigPath)) {
+    $databaseConfig = require $databaseConfigPath;
+} else {
+    $databaseConfig = [
+        'host' => getenv('DB_HOST') ?: 'localhost',
+        'dbname' => getenv('DB_NAME') ?: '',
+        'username' => getenv('DB_USERNAME') ?: '',
+        'password' => getenv('DB_PASSWORD') ?: '',
+    ];
+}
+
+$pdo = new PDO(
+    'mysql:host=' . ($databaseConfig['host'] ?? 'localhost') . ';dbname=' . ($databaseConfig['dbname'] ?? '') . ';charset=utf8',
+    $databaseConfig['username'] ?? '',
+    $databaseConfig['password'] ?? ''
+);
 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 if (!function_exists('ensure_user_schema')) {

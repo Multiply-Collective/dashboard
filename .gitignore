@@ -1,0 +1,6 @@
+vendor/
+.env
+.env.*
+config/db.local.php
+mail/smtp.local.php
+*.local.php
